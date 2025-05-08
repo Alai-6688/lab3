@@ -63,4 +63,15 @@
                    tuple_space[key] = value
                    response = "OK (k, v) added"
                conn.send(response.encode())
+     
+   def start_server(host, port):
+       server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+       server_socket.bind((host, port))
+       server_socket.listen()
+       print(f"Server listening on {host}:{port}")
+
+       while True:
+           conn, addr = server_socket.accept()
+           thread = threading.Thread(target=handle_client, args=(conn, addr))
+           thread.start()
     
