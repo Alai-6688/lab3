@@ -74,4 +74,17 @@
            conn, addr = server_socket.accept()
            thread = threading.Thread(target=handle_client, args=(conn, addr))
            thread.start()
+           
+   with open("requests.txt", "r") as file:
+       for line in file:
+           cmd, key, value = line.strip().split()
+           if cmd == 'P':
+               tuple_space[key] = value
+           elif cmd == 'G':
+               del tuple_space[key]
+           elif cmd == 'R':
+               if key in tuple_space:
+                   print(f"OK ({key}, {tuple_space[key]}) read")
+               else:
+                   print("ERR k does not exist")
     
